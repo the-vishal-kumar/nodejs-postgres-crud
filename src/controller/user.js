@@ -9,7 +9,9 @@ const Models = require('../models');
 
 const createUser = async (req, res) => {
     try {
-        const newUser = new Models.User(req.body);
+        // Copy only the fields a client may set, not the whole body.
+        const { firstName, lastName } = req.body;
+        const newUser = new Models.User({ firstName, lastName });
         await newUser.save();
         res.json({ user: newUser });
     } catch (error) {
